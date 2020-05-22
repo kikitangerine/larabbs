@@ -31,5 +31,8 @@ $api->version('v1', [
 			->name('api.verificationCodes.store');
 		$api->post('users', 'UsersController@store')
 			->name('api.users.store');
+		// 图片验证码
+    	$api->post('captchas', 'CaptchasController@store')
+        	->name('api.captchas.store');
 	});
 });
