@@ -25,6 +25,7 @@
         "overtrue/laravel-lang": "~3.0",
         "overtrue/pinyin": "~3.0",
         "predis/predis": "~1.1",
+        "socialiteproviders/weixin": "^4.0",
         "spatie/laravel-permission": "~2.29",
         "summerblue/administrator": "~1.1",
         "viacreative/sudo-su": "~1.1"
@@ -79,5 +80,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
     }
 }
