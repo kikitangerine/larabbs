@@ -38,5 +38,14 @@ $api->version('v1', [
         $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
         	->where('social_type', 'weixin|qq')
         	->name('socials.authorizations.store');
+        // 登录
+    	$api->post('authorizations', 'AuthorizationsController@store')
+        	->name('api.authorizations.store');
+        // 刷新token
+    	$api->put('authorizations/current', 'AuthorizationsController@update')
+        	->name('authorizations.update');
+    // 删除token
+    	$api->delete('authorizations/current', 'AuthorizationsController@destroy')
+        	->name('authorizations.destroy');
 	});
 });
