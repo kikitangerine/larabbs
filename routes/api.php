@@ -56,6 +56,8 @@ $api->version('v1', [
         // 某个用户的详情
         $api->get('users/{user}', 'UsersController@show')
             ->name('users.show');
+        $api->get('categories', 'CategoriesController@index')
+            ->name('api.categories.index');
 
         // 登录后可以访问的接口
         $api->group([
