@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Transformers\UserTransformer;
 use App\Http\Requests\Api\UserRequest;
@@ -11,6 +12,8 @@ use Illuminate\Auth\AuthenticationException;
 
 class UsersController extends Controller
 {
+    
+
     public function store(UserRequest $request)
     {
     	$verifyData = \Cache::get($request->verification_key);
@@ -52,9 +55,24 @@ class UsersController extends Controller
 
     public function me()
     {
-        // $data = $this->user();
-        $data = \Auth::guard('api')->user();
-        // print_r($data);exit;
+        $data = $this->user();
+        // $data = \Auth::guard('api')->user();
         return $this->response->item($data, new UserTransformer())->setStatusCode(201);
+    }
+
+    public function update(UserRequest $request)
+    {
+        $user = $this->user();
+
+        $attributes = $request->only(['name', 'email', 'introduction']);
+
+        if ($request->avatar_image_id) {
+            $image = Image::find($request->avatar_image_id);
+
+            $attributes['avatar'] = $image->path;
+        }
+        $user->update($attributes);
+
+        return $this->response->item($user, new UserTransformer());
     }
 }
