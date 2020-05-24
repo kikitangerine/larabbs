@@ -20,7 +20,8 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
-	'namespace'=>'App\Http\Controllers\Api'
+	'namespace'=>'App\Http\Controllers\Api',
+    'middleware' => 'serializer:array'
 ], function($api){
 	$api->group([
 		'middleware'=>'api.throttle',
@@ -35,8 +36,11 @@ $api->version('v1', [
     	$api->post('captchas', 'CaptchasController@store')
         	->name('api.captchas.store');
         //第三方登录
+        $api->post('authorizations/url', 'AuthorizationsController@getAuthUrl')
+            ->name('authorizations.get_auth_url');
+
         $api->post('socials/{social_type}/authorizations', 'AuthorizationsController@socialStore')
-        	->where('social_type', 'weixin|qq')
+        	->where('social_type', 'weixin')
         	->name('socials.authorizations.store');
         // 登录
     	$api->post('authorizations', 'AuthorizationsController@store')
@@ -44,8 +48,23 @@ $api->version('v1', [
         // 刷新token
     	$api->put('authorizations/current', 'AuthorizationsController@update')
         	->name('authorizations.update');
-    // 删除token
+        // 删除token
     	$api->delete('authorizations/current', 'AuthorizationsController@destroy')
         	->name('authorizations.destroy');
+
+        //用户数据
+        // 某个用户的详情
+        $api->get('users/{user}', 'UsersController@show')
+            ->name('users.show');
+
+        // 登录后可以访问的接口
+        $api->group([
+            'middleware'=>'auth:api',
+        ],function($api){
+            // 当前登录用户信息
+            $api->get('user', 'UsersController@me')
+                ->name('api.user.show');
+        });
+
 	});
 });

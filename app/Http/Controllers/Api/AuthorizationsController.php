@@ -12,6 +12,12 @@ use App\Http\Requests\Api\SocialAuthorizationRequest;
 
 class AuthorizationsController extends Controller
 {
+    public function getAuthUrl()
+    {
+    	$driver = \Socialite::driver('weixin');
+    	$url = $driver->getAuthUrlResponse();
+    	return response()->json(['url'=>$url])->setStatusCode(201);
+    }
     public function socialStore($type, SocialAuthorizationRequest $request)
     {
         $driver = \Socialite::driver($type);
