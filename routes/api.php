@@ -81,12 +81,24 @@ $api->version('v1', [
             // 发布话题
             $api->post('topics', 'TopicsController@store')
                 ->name('api.topics.store');
-            //修改话题
+            // 修改话题
             $api->patch('topics/{topic}', 'TopicsController@update')
                 ->name('api.topics.update');
-            //删除话题
+            // 删除话题
             $api->delete('topics/{topic}', 'TopicsController@destroy')
                 ->name('api.topics.destroy');
+             // 发布回复
+            $api->post('topics/replies/{topic}', 'RepliesController@store')
+                ->name('api.topics.replies.store');
+            // 删除回复
+            // $api->delete('topics/replies/{reply}/{topic}', 'RepliesController@destroy')
+            //     ->name('api.topics.replies.destroy');
+            $api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')
+                ->name('api.topics.replies.destroy');
+            $api->get('topics/{topic}/replies', 'RepliesController@index')
+                ->name('api.topics.replies.index');
+            $api->get('users/{user}/replies', 'RepliesController@userIndex')
+                ->name('api.users.replies.index');
         });
 	});
 });
