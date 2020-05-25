@@ -15,7 +15,10 @@ class ReplyObserver
     {
         $reply->topic->updateReplyCount();
         // 通知话题作者有新的评论
-        $reply->topic->user->notify(new TopicReplied($reply));
+        if ( ! $reply->user->isAuthorOf($topic)) {
+            $topic->user->notify(new TopicReplied($reply));
+        }
+        // $reply->topic->user->notify(new TopicReplied($reply));
     }
 
     public function creating(Reply $reply)
