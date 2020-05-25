@@ -99,6 +99,9 @@ $api->version('v1', [
                 ->name('api.topics.replies.index');
             $api->get('users/{user}/replies', 'RepliesController@userIndex')
                 ->name('api.users.replies.index');
+            // 通知列表
+            $api->get('user/notifications', 'NotificationsController@index')
+                ->name('api.user.notifications.index');
         });
 	});
 });
